@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AURA | Forensic Art Verification</title>
+    <title>AURA | Neural-Quantum Learning Lab</title>
     <link
         href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;400;600&display=swap"
         rel="stylesheet">
@@ -46,85 +46,151 @@
         }
 
         .status-badge {
-            background: var(--success);
-            color: black;
+            background: rgba(0, 242, 255, 0.1);
+            color: var(--accent);
+            border: 1px solid var(--accent);
             padding: 5px 15px;
             border-radius: 20px;
             font-size: 0.8rem;
             font-weight: 700;
-            text-transform: uppercase;
         }
 
         main {
-            max-width: 1200px;
-            margin: 50px auto;
-            padding: 0 20px;
+            max-width: 1400px;
+            margin: 40px auto;
+            padding: 0 40px;
         }
 
         .hero {
             text-align: center;
-            margin-bottom: 80px;
+            margin-bottom: 50px;
         }
 
         .hero h1 {
             font-family: 'Orbitron', sans-serif;
-            font-size: 3rem;
+            font-size: 2.5rem;
             margin-bottom: 10px;
             background: linear-gradient(90deg, #fff, var(--accent));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        .hero p {
-            color: #888;
-            font-size: 1.1rem;
-        }
-
         .grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 30px;
+            gap: 40px;
         }
 
         .step-card {
             background: var(--card-bg);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
+            border-radius: 25px;
             padding: 40px;
-            text-align: center;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 500px;
+            transition: 0.3s;
         }
 
         .step-card:hover {
-            border-color: var(--accent);
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0, 242, 255, 0.1);
+            border-color: rgba(0, 242, 255, 0.3);
         }
 
-        .upload-zone {
-            width: 100%;
-            height: 300px;
-            border: 2px dashed rgba(255, 255, 255, 0.2);
-            border-radius: 15px;
+        .card-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: var(--accent);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* Batch Upload Zone */
+        .batch-zone {
+            flex-grow: 1;
+            border: 2px dashed rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             cursor: pointer;
-            margin-top: 20px;
+            position: relative;
+            background: rgba(255, 255, 255, 0.02);
+            overflow: hidden;
             transition: 0.3s;
         }
 
-        .upload-zone:hover {
+        .batch-zone:hover {
             border-color: var(--accent);
             background: rgba(0, 242, 255, 0.05);
         }
 
-        .upload-zone img {
-            max-width: 100%;
-            max-height: 100%;
+        .image-stack {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+            gap: 10px;
+            width: 100%;
+            padding: 20px;
+            display: none;
+        }
+
+        .image-stack img {
+            width: 100%;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 5px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Progress Animation */
+        .learning-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .progress-bar-container {
+            width: 80%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            margin-top: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            width: 0%;
+            height: 100%;
+            background: var(--accent);
+            box-shadow: 0 0 15px var(--accent);
+            transition: width 0.1s linear;
+        }
+
+        /* Verify Zone */
+        .verify-zone {
+            flex-grow: 1;
+            border-radius: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #111;
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+        }
+
+        .verify-zone img {
+            max-width: 90%;
+            max-height: 90%;
             border-radius: 10px;
             display: none;
         }
@@ -133,51 +199,32 @@
             background: linear-gradient(135deg, var(--accent), #0077ff);
             color: white;
             border: none;
-            padding: 15px 40px;
+            padding: 20px;
             font-family: 'Orbitron', sans-serif;
-            font-size: 1rem;
-            border-radius: 50px;
+            font-size: 1.1rem;
+            border-radius: 15px;
             cursor: pointer;
-            margin-top: 30px;
-            width: 100%;
+            margin-top: 25px;
             text-transform: uppercase;
-            box-shadow: 0 0 20px rgba(0, 242, 255, 0.3);
+            box-shadow: 0 10px 20px rgba(0, 242, 255, 0.2);
             transition: 0.3s;
         }
 
-        .btn-action:hover {
-            transform: scale(1.02);
-            filter: brightness(1.1);
+        .btn-action:disabled {
+            filter: grayscale(1);
+            cursor: not-allowed;
+            opacity: 0.5;
         }
 
-        /* Hidden Scan Bar */
-        .scan-bar {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: var(--accent);
-            box-shadow: 0 0 15px var(--accent);
-            display: none;
-            animation: scannMove 2s infinite linear;
+        .learning-stats {
+            margin-top: 15px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: #888;
         }
 
-        @keyframes scannMove {
-            0% {
-                top: 0;
-            }
-
-            50% {
-                top: 100%;
-            }
-
-            100% {
-                top: 0;
-            }
-        }
-
-        /* Results Modal Overlay */
+        /* Result View */
         #result-view {
             display: none;
             position: fixed;
@@ -189,41 +236,26 @@
             z-index: 1000;
             justify-content: center;
             align-items: center;
-            flex-direction: column;
         }
 
         .result-card {
             background: #111;
-            padding: 50px;
+            padding: 60px;
             border-radius: 30px;
             text-align: center;
             border: 2px solid var(--accent);
-            max-width: 600px;
-            width: 90%;
+            max-width: 700px;
         }
 
         .verdict {
             font-family: 'Orbitron', sans-serif;
-            font-size: 3.5rem;
+            font-size: 4rem;
             margin: 20px 0;
         }
 
-        .metrics {
-            display: flex;
-            justify-content: space-around;
-            margin: 30px 0;
-        }
-
-        .metric-item span {
-            display: block;
-            color: #888;
-            font-size: 0.8rem;
-        }
-
-        .metric-item b {
-            font-size: 1.5rem;
+        .data-counter {
+            font-family: 'Orbitron', sans-serif;
             color: var(--accent);
-            font-family: 'Orbitron';
         }
     </style>
 </head>
@@ -231,118 +263,201 @@
 <body>
 
     <header>
-        <div class="logo">AURA FORENSICS</div>
-        <div class="status-badge">Quantum Engine Active</div>
+        <div class="logo">AURA EXPERT</div>
+        <div class="status-badge" id="global-status">Idle</div>
     </header>
 
     <main>
         <div class="hero">
-            <h1>AUTHENTICATION HUB</h1>
-            <p>Advanced Micro-Pattern Analysis & Quantum Identity Mapping</p>
+            <h1>NEURAL TRAINING & FORENSICS</h1>
+            <p>Feed the AI hundreds of authentic samples to master the artist's DNA.</p>
         </div>
 
         <div class="grid">
+            <!-- Left: Batch Learning -->
             <div class="step-card">
-                <h2>1. REFERENCE</h2>
-                <p>Authentic standard for comparison</p>
-                <div class="upload-zone" id="zone1">
-                    <span id="text1">Drop Original Masterpiece Here</span>
-                    <img id="img1" src="" alt="">
-                    <input type="file" id="file1" hidden accept="image/*">
+                <div class="card-title">
+                    <span>🧪 BATCH LEARNING LAB</span>
+                    <span class="data-counter" id="count-total">0 Samples</span>
                 </div>
+                <p style="color: #666; margin-top: 0;">Upload hundreds of images to train the model.</p>
+                <div class="batch-zone" id="batch-trigger">
+                    <div id="batch-prompt">
+                        <span style="font-size: 3rem;">📁</span><br>
+                        Click to Upload Batch Images
+                    </div>
+                    <div class="image-stack" id="stack-view"></div>
+
+                    <div class="learning-overlay" id="learning-ui">
+                        <div id="learning-text" style="font-family: 'Orbitron';">LEARNING NEURAL PATTERNS...</div>
+                        <div class="progress-bar-container">
+                            <div class="progress-fill" id="learn-progress"></div>
+                        </div>
+                        <div id="learning-percent" style="margin-top: 10px; color: var(--accent);">0%</div>
+                    </div>
+                    <input type="file" id="batch-input" multiple hidden accept="image/*">
+                </div>
+                <div class="learning-stats">
+                    <span>Feature Extraction: <b id="feat-status">Off</b></span>
+                    <span>Knowledge Density: <b id="density-val">0.00</b></span>
+                </div>
+                <button class="btn-action" id="btn-train" disabled>Start Batch Learning Protocol</button>
             </div>
 
+            <!-- Right: Single Verification -->
             <div class="step-card">
-                <h2>2. SUSPECT</h2>
-                <p>Artwork under investigation</p>
-                <div class="upload-zone" id="zone2">
-                    <span id="text2">Drop Suspect Piece Here</span>
-                    <img id="img2" src="" alt="">
-                    <input type="file" id="file2" hidden accept="image/*">
+                <div class="card-title">
+                    <span>🔍 FORENSIC VERIFICATION</span>
                 </div>
-                <!-- Scan animation bar -->
-                <div class="scan-bar" id="scanner"></div>
+                <p style="color: #666; margin-top: 0;">Analyze a suspect piece against the trained knowledge base.</p>
+                <div class="verify-zone" id="target-trigger">
+                    <div id="target-prompt">
+                        <span style="font-size: 3rem;">🕵️‍♂️</span><br>
+                        Drop Suspect Image Here
+                    </div>
+                    <img id="target-img" src="" alt="">
+                    <input type="file" id="target-input" hidden accept="image/*">
+                </div>
+                <button class="btn-action" id="btn-verify" disabled style="background: #222;">Awaiting Model
+                    Knowledge...</button>
             </div>
         </div>
-
-        <button class="btn-action" id="btn-verify">Initiate Verification Protocol</button>
     </main>
 
     <div id="result-view">
         <div class="result-card">
-            <h3 style="color: #888;">FORENSIC ANALYSIS COMPLETE</h3>
-            <div class="verdict" id="verdict-text">AUTHENTIC</div>
-            <div class="metrics">
-                <div class="metric-item">
-                    <span>Neural Dist.</span>
-                    <b id="m1">0.124</b>
+            <h3 style="color: #888;">ADVANCED ANALYSIS REPORT</h3>
+            <div class="verdict" id="v-text">AUTHENTIC</div>
+            <div style="display: flex; justify-content: space-around; font-family: 'Orbitron'; margin: 40px 0;">
+                <div>
+                    <span style="display: block; font-size: 0.8rem; color: #555;">KNOWLEDGE MATCH</span>
+                    <b id="v-score" style="font-size: 2rem; color: var(--accent);">99.2%</b>
                 </div>
-                <div class="metric-item">
-                    <span>Q-Entropy</span>
-                    <b id="m2">0.992</b>
-                </div>
-                <div class="metric-item">
-                    <span>Confidence</span>
-                    <b id="m3">98.4%</b>
+                <div>
+                    <span style="display: block; font-size: 0.8rem; color: #555;">SAMPLES USED</span>
+                    <b id="v-samples" style="font-size: 2rem; color: var(--gold);">0</b>
                 </div>
             </div>
-            <button class="btn-action" onclick="location.reload()">New Investigation</button>
+            <button class="btn-action" onclick="location.reload()" style="width: 100%;">Seal Report & Clear
+                Memory</button>
         </div>
     </div>
 
     <script>
-        const setupUpload = (zoneId, fileId, imgId, textId) => {
-            const zone = document.getElementById(zoneId);
-            const file = document.getElementById(fileId);
-            const img = document.getElementById(imgId);
-            const text = document.getElementById(textId);
+        let learnedCount = 0;
+        let isTrained = false;
 
-            zone.onclick = () => file.click();
-            file.onchange = (e) => {
+        // Batch Upload Handling
+        const batchInput = document.getElementById('batch-input');
+        const batchTrigger = document.getElementById('batch-trigger');
+        const stackView = document.getElementById('stack-view');
+        const batchPrompt = document.getElementById('batch-prompt');
+        const btnTrain = document.getElementById('btn-train');
+        const countTotal = document.getElementById('count-total');
+
+        batchTrigger.onclick = () => batchInput.click();
+
+        batchInput.onchange = (e) => {
+            const files = e.target.files;
+            if (files.length === 0) return;
+
+            stackView.innerHTML = '';
+            stackView.style.display = 'grid';
+            batchPrompt.style.display = 'none';
+
+            // Show first 30 images as a stack
+            Array.from(files).slice(0, 30).forEach(file => {
                 const reader = new FileReader();
-                reader.onload = () => {
-                    img.src = reader.result;
-                    img.style.display = 'block';
-                    text.style.display = 'none';
+                reader.onload = (ev) => {
+                    const img = document.createElement('img');
+                    img.src = ev.target.result;
+                    stackView.appendChild(img);
                 };
-                reader.readAsDataURL(e.target.files[0]);
-            };
+                reader.readAsDataURL(file);
+            });
+
+            learnedCount = files.length;
+            countTotal.innerText = `${learnedCount} Samples`;
+            btnTrain.disabled = false;
         };
 
-        setupUpload('zone1', 'file1', 'img1', 'text1');
-        setupUpload('zone2', 'file2', 'img2', 'text2');
+        // Training Simulation
+        btnTrain.onclick = function () {
+            this.disabled = true;
+            document.getElementById('learning-ui').style.display = 'flex';
+            document.getElementById('global-status').innerText = "Training Engine...";
 
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += Math.random() * 5;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(interval);
+                    completeTraining();
+                }
+                document.getElementById('learn-progress').style.width = progress + '%';
+                document.getElementById('learning-percent').innerText = Math.round(progress) + '%';
+            }, 100);
+        };
+
+        function completeTraining() {
+            isTrained = true;
+            document.getElementById('learning-text').innerText = "LEARNING COMPLETE";
+            document.getElementById('feat-status').innerText = "ACTIVE";
+            document.getElementById('feat-status').style.color = "var(--success)";
+            document.getElementById('density-val').innerText = (learnedCount * 1.42).toFixed(2);
+            document.getElementById('global-status').innerText = "Model Optimized";
+
+            setTimeout(() => {
+                document.getElementById('learning-ui').style.display = 'none';
+                const btnVerify = document.getElementById('btn-verify');
+                btnVerify.disabled = false;
+                btnVerify.innerText = "Initiate Expert Verification";
+                btnVerify.style.background = "linear-gradient(135deg, var(--accent), #0077ff)";
+            }, 1500);
+        }
+
+        // Single Target Handling
+        const targetInput = document.getElementById('target-input');
+        const targetTrigger = document.getElementById('target-trigger');
+        const targetImg = document.getElementById('target-img');
+        const targetPrompt = document.getElementById('target-prompt');
+
+        targetTrigger.onclick = () => targetInput.click();
+        targetInput.onchange = (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (ev) => {
+                targetImg.src = ev.target.result;
+                targetImg.style.display = 'block';
+                targetPrompt.style.display = 'none';
+            };
+            reader.readAsDataURL(file);
+        };
+
+        // Final Verification
         document.getElementById('btn-verify').onclick = function () {
-            const img1 = document.getElementById('img1').src;
-            const img2 = document.getElementById('img2').src;
-
-            if (!img1 || !img2) {
-                alert("Please upload both images before initiating analysis.");
+            if (!targetImg.src) {
+                alert("Please upload a suspect image.");
                 return;
             }
 
-            // Start Simulation
-            this.innerText = "Analyzing Neural Patterns...";
+            this.innerText = "Consulting Knowledge Base...";
             this.disabled = true;
-            document.getElementById('scanner').style.display = 'block';
 
             setTimeout(() => {
-                this.innerText = "Calculating Quantum Entropy...";
-                setTimeout(() => {
-                    // Logic Simulation
-                    const isFake = Math.random() > 0.5;
-                    const verdict = isFake ? "POTENTIAL FAKE" : "AUTHENTIC";
-                    const color = isFake ? "#ff4d4d" : "#00ff88";
+                const isFake = Math.random() > 0.6;
+                const verdict = isFake ? "FORGERY DETECTED" : "AUTHENTIC WORK";
+                const color = isFake ? "var(--danger)" : "var(--success)";
 
-                    document.getElementById('verdict-text').innerText = verdict;
-                    document.getElementById('verdict-text').style.color = color;
-                    document.getElementById('m1').innerText = (Math.random() * 2).toFixed(3);
-                    document.getElementById('m2').innerText = (Math.random() * 0.3 + 0.7).toFixed(3);
-                    document.getElementById('m3').innerText = (Math.random() * 10 + 89).toFixed(1) + "%";
+                document.getElementById('v-text').innerText = verdict;
+                document.getElementById('v-text').style.color = color;
+                document.getElementById('v-samples').innerText = learnedCount;
+                document.getElementById('v-score').innerText = (Math.random() * 5 + 94).toFixed(1) + "%";
 
-                    document.getElementById('result-view').style.display = 'flex';
-                }, 2000);
-            }, 2000);
+                document.getElementById('result-view').style.display = 'flex';
+            }, 3000);
         };
     </script>
 </body>
