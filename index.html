@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AURA | Forensic Art Verification</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;400;600&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505;
+            --accent: #00f2ff;
+            --gold: #ffcf00;
+            --danger: #ff4d4d;
+            --success: #00ff88;
+            --card-bg: rgba(255, 255, 255, 0.05);
+        }
+
+        body {
+            background-color: var(--bg);
+            color: white;
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        header {
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            color: var(--accent);
+            letter-spacing: 3px;
+        }
+
+        .status-badge {
+            background: var(--success);
+            color: black;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 0 20px;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .hero h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #fff, var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            color: #888;
+            font-size: 1.1rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .step-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .step-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 242, 255, 0.1);
+        }
+
+        .upload-zone {
+            width: 100%;
+            height: 300px;
+            border: 2px dashed rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: 0.3s;
+        }
+
+        .upload-zone:hover {
+            border-color: var(--accent);
+            background: rgba(0, 242, 255, 0.05);
+        }
+
+        .upload-zone img {
+            max-width: 100%;
+            max-height: 100%;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .btn-action {
+            background: linear-gradient(135deg, var(--accent), #0077ff);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 30px;
+            width: 100%;
+            text-transform: uppercase;
+            box-shadow: 0 0 20px rgba(0, 242, 255, 0.3);
+            transition: 0.3s;
+        }
+
+        .btn-action:hover {
+            transform: scale(1.02);
+            filter: brightness(1.1);
+        }
+
+        /* Hidden Scan Bar */
+        .scan-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--accent);
+            box-shadow: 0 0 15px var(--accent);
+            display: none;
+            animation: scannMove 2s infinite linear;
+        }
+
+        @keyframes scannMove {
+            0% {
+                top: 0;
+            }
+
+            50% {
+                top: 100%;
+            }
+
+            100% {
+                top: 0;
+            }
+        }
+
+        /* Results Modal Overlay */
+        #result-view {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .result-card {
+            background: #111;
+            padding: 50px;
+            border-radius: 30px;
+            text-align: center;
+            border: 2px solid var(--accent);
+            max-width: 600px;
+            width: 90%;
+        }
+
+        .verdict {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3.5rem;
+            margin: 20px 0;
+        }
+
+        .metrics {
+            display: flex;
+            justify-content: space-around;
+            margin: 30px 0;
+        }
+
+        .metric-item span {
+            display: block;
+            color: #888;
+            font-size: 0.8rem;
+        }
+
+        .metric-item b {
+            font-size: 1.5rem;
+            color: var(--accent);
+            font-family: 'Orbitron';
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">AURA FORENSICS</div>
+        <div class="status-badge">Quantum Engine Active</div>
+    </header>
+
+    <main>
+        <div class="hero">
+            <h1>AUTHENTICATION HUB</h1>
+            <p>Advanced Micro-Pattern Analysis & Quantum Identity Mapping</p>
+        </div>
+
+        <div class="grid">
+            <div class="step-card">
+                <h2>1. REFERENCE</h2>
+                <p>Authentic standard for comparison</p>
+                <div class="upload-zone" id="zone1">
+                    <span id="text1">Drop Original Masterpiece Here</span>
+                    <img id="img1" src="" alt="">
+                    <input type="file" id="file1" hidden accept="image/*">
+                </div>
+            </div>
+
+            <div class="step-card">
+                <h2>2. SUSPECT</h2>
+                <p>Artwork under investigation</p>
+                <div class="upload-zone" id="zone2">
+                    <span id="text2">Drop Suspect Piece Here</span>
+                    <img id="img2" src="" alt="">
+                    <input type="file" id="file2" hidden accept="image/*">
+                </div>
+                <!-- Scan animation bar -->
+                <div class="scan-bar" id="scanner"></div>
+            </div>
+        </div>
+
+        <button class="btn-action" id="btn-verify">Initiate Verification Protocol</button>
+    </main>
+
+    <div id="result-view">
+        <div class="result-card">
+            <h3 style="color: #888;">FORENSIC ANALYSIS COMPLETE</h3>
+            <div class="verdict" id="verdict-text">AUTHENTIC</div>
+            <div class="metrics">
+                <div class="metric-item">
+                    <span>Neural Dist.</span>
+                    <b id="m1">0.124</b>
+                </div>
+                <div class="metric-item">
+                    <span>Q-Entropy</span>
+                    <b id="m2">0.992</b>
+                </div>
+                <div class="metric-item">
+                    <span>Confidence</span>
+                    <b id="m3">98.4%</b>
+                </div>
+            </div>
+            <button class="btn-action" onclick="location.reload()">New Investigation</button>
+        </div>
+    </div>
+
+    <script>
+        const setupUpload = (zoneId, fileId, imgId, textId) => {
+            const zone = document.getElementById(zoneId);
+            const file = document.getElementById(fileId);
+            const img = document.getElementById(imgId);
+            const text = document.getElementById(textId);
+
+            zone.onclick = () => file.click();
+            file.onchange = (e) => {
+                const reader = new FileReader();
+                reader.onload = () => {
+                    img.src = reader.result;
+                    img.style.display = 'block';
+                    text.style.display = 'none';
+                };
+                reader.readAsDataURL(e.target.files[0]);
+            };
+        };
+
+        setupUpload('zone1', 'file1', 'img1', 'text1');
+        setupUpload('zone2', 'file2', 'img2', 'text2');
+
+        document.getElementById('btn-verify').onclick = function () {
+            const img1 = document.getElementById('img1').src;
+            const img2 = document.getElementById('img2').src;
+
+            if (!img1 || !img2) {
+                alert("Please upload both images before initiating analysis.");
+                return;
+            }
+
+            // Start Simulation
+            this.innerText = "Analyzing Neural Patterns...";
+            this.disabled = true;
+            document.getElementById('scanner').style.display = 'block';
+
+            setTimeout(() => {
+                this.innerText = "Calculating Quantum Entropy...";
+                setTimeout(() => {
+                    // Logic Simulation
+                    const isFake = Math.random() > 0.5;
+                    const verdict = isFake ? "POTENTIAL FAKE" : "AUTHENTIC";
+                    const color = isFake ? "#ff4d4d" : "#00ff88";
+
+                    document.getElementById('verdict-text').innerText = verdict;
+                    document.getElementById('verdict-text').style.color = color;
+                    document.getElementById('m1').innerText = (Math.random() * 2).toFixed(3);
+                    document.getElementById('m2').innerText = (Math.random() * 0.3 + 0.7).toFixed(3);
+                    document.getElementById('m3').innerText = (Math.random() * 10 + 89).toFixed(1) + "%";
+
+                    document.getElementById('result-view').style.display = 'flex';
+                }, 2000);
+            }, 2000);
+        };
+    </script>
+</body>
+
+</html>
